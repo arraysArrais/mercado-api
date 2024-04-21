@@ -35,9 +35,8 @@ class Item
         return $result;
     }
 
-    public function insert($price, $name, $description = null, $category_id)
+    public function insert($price, $name, $category_id, $description = null)
     {
-
         if ($price != null && $name != null && $category_id != null) {
             $insert = 'INSERT INTO '.$this->tableName.' (price, name, description, category_id) VALUES (:price, :name, :description, :category_id)';
 
@@ -50,19 +49,20 @@ class Item
 
             $statement->execute();
 
-            return $statement->rowCount() > 0 ? true : false;
+            $result = [
+                "status" => $statement->rowCount() > 0 ? true : false,
+                "id" => $this->db->lastInsertId()
+            ];
+            return $result;
         }
-
-        return HttpHelpers::jsonResponse(422, ['error' => 'Os campos price, name e category_id são obrigatórios']);
     }
 
     public function update($id, $price, $name, $description, $category_id){
         $item = $this->findByPk($id);
-
-        $price = $price === null ? $item['price'] : $price;
-        $name = $name === null ? $item['name'] : $name;
-        $description = $description === null ? $item['description'] : $description;
-        $category_id = $category_id === null ? $item['categor$category_id'] : $category_id;
+        $price = $price == null ? $item[0]['price'] : $price;
+        $name = $name == null ? $item[0]['name'] : $name;
+        $description = $description == null ? $item[0]['description'] : $description;
+        $category_id = $category_id == null ? $item[0]['category_id'] : $category_id;
 
         $update = 'UPDATE '.$this->tableName.' set price = :price, name = :name, description = :description, category_id = :category_id WHERE id = :id';
 
@@ -73,8 +73,8 @@ class Item
         $statement->bindParam(':description', $description);
         $statement->bindParam(':category_id', $category_id);
         $statement->bindParam(':id', $id);
+        
         $statement->execute();
-
         return $statement->rowCount() > 0 ? true : false;
     }
 
@@ -86,5 +86,8 @@ class Item
         return $statement->rowCount() > 0 ? true : false;
     }
 
+    public function lastInsertedId(){
+        return $this->db->lastInsertId();
+    }
 
 }
