@@ -1,31 +1,17 @@
 <?php
-use Http\Controllers\HomeController;
 use Http\Controllers\ItemController;
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Helpers\HttpHelpers;
-use Laminas\Diactoros\ServerRequest;
 
 $router = Router::create();
 
 //item
+$router->post('/item', [ItemController::class, 'create']);
 $router->get('/item', [ItemController::class, 'findAll']);
-$router->get('/item/{id}', function($id){
-    $controller = new ItemController();
-    return $controller->find($id);
-});
-$router->post('/item', function (ServerRequest $r){
-    $controller = new ItemController(); 
-    return $controller->create(HttpHelpers::getBodyFromRequest($r));
-});
-$router->patch('/item/{id}', function ($id, ServerRequest $r){
-    $controller = new ItemController(); 
-    return $controller->update($id, HttpHelpers::getBodyFromRequest($r));
-});
-$router->delete('/item/{id}', function ($id){
-    $controller = new ItemController(); 
-    return $controller->delete($id);
-});
+$router->get('/item/{id}', [ItemController::class, 'find']);
+$router->patch('/item/{id}', [ItemController::class, 'update']);
+$router->delete('/item/{id}', [ItemController::class, 'delete']);
 
 try {
     $router->dispatch();

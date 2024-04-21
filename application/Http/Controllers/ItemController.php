@@ -5,6 +5,7 @@ namespace Http\Controllers;
 use Services\ItemService;
 use Throwable;
 use Helpers\HttpHelpers;
+use Laminas\Diactoros\ServerRequest;
 
 class ItemController
 {
@@ -35,9 +36,9 @@ class ItemController
         }
     }
 
-    public function create($body)
+    public function create(ServerRequest $r)
     {
-        //TODO: validar atributos
+        $body = HttpHelpers::getBodyFromRequest($r);
         try {
             $result = $this->itemService->create($body);
 
@@ -51,15 +52,16 @@ class ItemController
         }
     }
 
-    public function update($id, $body)
+    public function update($id, ServerRequest $r)
     {
+        $body = HttpHelpers::getBodyFromRequest($r);
         try {
             $result = $this->itemService->update($id, $body);
 
             if ($result == true) {
                 return $this->find($id);
             } else {
-                return HttpHelpers::jsonResponse(400, ["error" => "Requisição inválida."]);
+                return HttpHelpers::jsonResponse(400, ["error" => "Requisição inválida ou registro não encontrado"]);
             }
         } catch (Throwable $e) {
             return HttpHelpers::jsonResponse(500, $e->getMessage());
