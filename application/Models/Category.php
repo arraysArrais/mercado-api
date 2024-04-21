@@ -4,10 +4,10 @@ namespace Models;
 
 use Config\Database;
 
-class Item
+class Category
 {
     private $db;
-    private $tableName = 'item';
+    private $tableName = 'category';
     public function __construct()
     {
         $database = new Database();
@@ -34,16 +34,14 @@ class Item
         return $result;
     }
 
-    public function insert($price, $name, $category_id, $description = null)
+    public function insert($name, $tax_percent)
     {
-            $insert = 'INSERT INTO '.$this->tableName.' (price, name, description, category_id) VALUES (:price, :name, :description, :category_id)';
+            $insert = 'INSERT INTO '.$this->tableName.' (name, tax_percent) VALUES (:name, :tax_percent)';
 
             $statement = $this->db->prepare($insert);
 
-            $statement->bindParam(':price', $price);
             $statement->bindParam(':name', $name);
-            $statement->bindParam(':description', $description);
-            $statement->bindParam(':category_id', $category_id);
+            $statement->bindParam(':tax_percent', $tax_percent);
 
             $statement->execute();
 
@@ -54,21 +52,17 @@ class Item
             return $result;
     }
 
-    public function update($id, $price, $name, $description, $category_id){
-        $item = $this->findByPk($id);
-        $price = $price == null ? $item[0]['price'] : $price;
-        $name = $name == null ? $item[0]['name'] : $name;
-        $description = $description == null ? $item[0]['description'] : $description;
-        $category_id = $category_id == null ? $item[0]['category_id'] : $category_id;
+    public function update($id, $name, $tax_percent){
+        $category = $this->findByPk($id);
+        $name = $name == null ? $category[0]['name'] : $name;
+        $tax_percent = $tax_percent == null ? $category[0]['tax_percent'] : $tax_percent;
 
-        $update = 'UPDATE '.$this->tableName.' set price = :price, name = :name, description = :description, category_id = :category_id WHERE id = :id';
+        $update = 'UPDATE '.$this->tableName.' set name = :name, tax_percent = :tax_percent WHERE id = :id';
 
         $statement = $this->db->prepare($update);
 
-        $statement->bindParam(':price', $price);
         $statement->bindParam(':name', $name);
-        $statement->bindParam(':description', $description);
-        $statement->bindParam(':category_id', $category_id);
+        $statement->bindParam(':tax_percent', $tax_percent);
         $statement->bindParam(':id', $id);
         
         $statement->execute();
