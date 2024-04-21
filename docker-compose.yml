@@ -1,0 +1,59 @@
+version: "3"
+services:
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - internal
+    volumes:
+      - ./application/:/var/www/html/
+      - ./logs/nginx:/var/log/nginx/
+    container_name: nginx
+    depends_on:
+      - postgres
+  php:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    networks:
+      - internal
+    volumes:
+      - ./application/:/var/www/html/
+      - ./logs/php.log:/var/log/fpm-php.www.log
+    container_name: php
+    expose:
+      - "9000"
+
+  postgres:
+      image: postgres:16.0
+      environment:
+        POSTGRES_DB: postgres
+        POSTGRES_USER: db_user
+        POSTGRES_PASSWORD: db_password
+      networks:
+      - internal
+      ports:
+        - "4005:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@email.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    networks:
+    - internal
+    ports:
+      - "5050:80"
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres 
+    restart: always
+    
+networks:
+  internal:
+    driver: bridge

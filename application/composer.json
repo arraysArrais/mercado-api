@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Http\\Controllers\\": "Http/Controllers/",
+            "Services\\": "Http/Services/",
+            "Models\\": "Models/",
+            "Config\\": "Config/",
+            "Helpers\\": "Helpers/"
+        }
+    },
+    "require": {
+        "miladrahimi/phprouter": "5.*"
+    }
+}
