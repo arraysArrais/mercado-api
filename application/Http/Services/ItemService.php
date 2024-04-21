@@ -5,7 +5,7 @@ namespace Services;
 use Models\Item;
 
 class ItemService{
-    //model
+
     private $item;
 
     public function __construct()
@@ -22,6 +22,7 @@ class ItemService{
     }
 
     public function create($body){
+        //Checa por atributos obrigatórios
         if($body->name != null && $body->category_id != null && $body->price != null){
             return $this->item->insert($body->price, $body->name, $body->category_id, $body->description);
         }
@@ -29,11 +30,11 @@ class ItemService{
     }
 
     public function update($id, $body){
-        if($body->name != null && $body->description != null && $body->price != null){
-            return $this->item->update($id, $body->price, $body->name, $body->description, $body->category_id);
+        //Pelo menos um atributo deve ser enviado para alteração na requisição
+        if($body->name == null && $body->description == null && $body->price == null && $body->category_id == null){
+            return false;    
         }
-        return false;
-        
+        return $this->item->update($id, $body->price, $body->name, $body->description, $body->category_id);
     }
 
     public function delete($id){
