@@ -74,9 +74,9 @@ class CategoryController
             $result = $this->categoryService->delete($id);
 
             if ($result == true) {
-                return HttpHelpers::jsonResponse(200, ["message" => "Produto excluído com sucesso."]);
+                return HttpHelpers::jsonResponse(200, ["message" => "Registro excluído com sucesso."]);
             }
-            return HttpHelpers::jsonResponse(404, ["error" => "Produto não encontrado."]);
+            return HttpHelpers::jsonResponse(404, ["error" => "Registro não encontrado."]);
         } catch (Throwable $e) {
             return HttpHelpers::jsonResponse(500, $e->getMessage());
         }

@@ -7,7 +7,7 @@ use Http\Controllers\CategoryController;
 
 $router = Router::create();
 
-//item
+
 $router->post('/item', [ItemController::class, 'create']);
 $router->get('/item', [ItemController::class, 'findAll']);
 $router->get('/item/{id}', [ItemController::class, 'find']);
