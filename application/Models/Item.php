@@ -83,6 +83,18 @@ class Item
         return $statement->rowCount() > 0 ? true : false;
     }
 
+    public function findByCodigo($codigo){
+        $query = 'select i.id, i.name, i.description, i.price, i.codigo, c.name as "category", c.tax_percent 
+        from item i
+        inner join category c on c.id = i.category_id where i.codigo = :codigo';
+
+        $statement = $this->db->prepare($query);
+        $statement->bindParam(':codigo', $codigo);
+        $statement->execute();
+        $result = $statement->fetchAll($this->db::FETCH_ASSOC);
+        return $result; 
+    }
+
     public function lastInsertedId(){
         return $this->db->lastInsertId();
     }

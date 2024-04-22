@@ -40,4 +40,8 @@ class ItemService{
     public function delete($id){
         return $this->item->delete($id);
     }
+
+    public function findByCodigo($codigo){
+        return $this->item->findByCodigo($codigo);
+    }
 }

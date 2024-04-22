@@ -16,9 +16,15 @@ class ItemController
         $this->itemService = new ItemService();
     }
 
-    public function findAll()
+    public function findAll(ServerRequest $r)
     {
+
         try {
+            $queryParams = $r->getQueryParams();
+            if ($queryParams['codigo'] != null) {
+                return $this->itemService->findByCodigo($queryParams['codigo']);
+            }
+
             $result = $this->itemService->findAll();
             return HttpHelpers::jsonResponse(200, $result);
         } catch (Throwable $e) {
@@ -75,6 +81,19 @@ class ItemController
 
             if ($result == true) {
                 return HttpHelpers::jsonResponse(200, ["message" => "Registro excluído com sucesso."]);
+            }
+            return HttpHelpers::jsonResponse(404, ["error" => "Registro não encontrado."]);
+        } catch (Throwable $e) {
+            return HttpHelpers::jsonResponse(500, $e->getMessage());
+        }
+    }
+
+    public function findByCodigo($codigo)
+    {
+        try {
+            $result = $this->itemService->findByCodigo($codigo);
+            if ($result == true) {
+                return HttpHelpers::jsonResponse(200, $result);
             }
             return HttpHelpers::jsonResponse(404, ["error" => "Registro não encontrado."]);
         } catch (Throwable $e) {
