@@ -42,6 +42,8 @@ class ItemService{
     }
 
     public function findByCodigo($codigo){
-        return $this->item->findByCodigo($codigo);
+        $result = $this->item->findByCodigo($codigo);
+        $result[0]['imposto'] = ($result[0]['price'] * ($result[0]['tax_percent'])/100);
+        return $result;
     }
 }
