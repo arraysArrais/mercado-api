@@ -3,7 +3,7 @@
 namespace Models;
 
 use Config\Database;
-
+use Ramsey\Uuid\Uuid;
 class Item
 {
     private $db;
@@ -35,8 +35,9 @@ class Item
     }
 
     public function insert($price, $name, $category_id, $description = null)
-    {
-            $insert = 'INSERT INTO '.$this->tableName.' (price, name, description, category_id) VALUES (:price, :name, :description, :category_id)';
+    {   
+            $uuid = Uuid::uuid4();
+            $insert = 'INSERT INTO '.$this->tableName.' (price, name, description, category_id, id) VALUES (:price, :name, :description, :category_id, :id)';
 
             $statement = $this->db->prepare($insert);
 
@@ -44,12 +45,13 @@ class Item
             $statement->bindParam(':name', $name);
             $statement->bindParam(':description', $description);
             $statement->bindParam(':category_id', $category_id);
+            $statement->bindParam(':id', $uuid);
 
             $statement->execute();
 
             $result = [
                 "status" => $statement->rowCount() > 0 ? true : false,
-                "id" => $this->db->lastInsertId()
+                "id" => $uuid
             ];
             return $result;
     }

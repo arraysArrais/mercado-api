@@ -9,6 +9,7 @@
         }
     },
     "require": {
-        "miladrahimi/phprouter": "5.*"
+        "miladrahimi/phprouter": "5.*",
+        "ramsey/uuid": "^4.7"
     }
 }
