@@ -25,8 +25,18 @@ class TransactionController
             if ($result['status'] == false) {
                 return HttpHelpers::jsonResponse(400, ["error" => "Erro ao realizar a transação"]);
             } else {
-                return HttpHelpers::jsonResponse(201, $this->transactionService->findByPk($result['id']));
+                return HttpHelpers::jsonResponse(201, $this->transactionService->findWithItems($result['id']));
             }
+        } catch (Throwable $e) {
+            return HttpHelpers::jsonResponse(500, $e->getMessage());
+        }
+    }
+
+    public function findWithItems($id)
+    {
+        try {
+            $result = $this->transactionService->findWithItems($id);
+            return HttpHelpers::jsonResponse(200, $result);
         } catch (Throwable $e) {
             return HttpHelpers::jsonResponse(500, $e->getMessage());
         }

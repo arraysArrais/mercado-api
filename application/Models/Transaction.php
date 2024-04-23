@@ -57,6 +57,22 @@ class Transaction
         return $result;
     }
 
+    public function getTransactionWithItems($transaction_id)
+    {
+        $query = 'select t.id as "id_transaction", ti.item_id, i.name, i.price, i.description, i.codigo, c.name as "categoria", c.tax_percent as "percentual_imposto", created_date
+        from transaction t
+        inner join transaction_item ti on t.id = ti.transaction_id 
+        inner join item i on i.id = ti.item_id 
+        inner join category c on c.id = i.category_id
+        where t.id = :transaction_id';
+
+        $statement = $this->db->prepare($query);
+        $statement->bindParam(':transaction_id', $transaction_id);
+        $statement->execute();
+        $result = $statement->fetchAll($this->db::FETCH_ASSOC);
+        return $result;
+    }
+
     public function lastInsertedId()
     {
         return $this->db->lastInsertId();

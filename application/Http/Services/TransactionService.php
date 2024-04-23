@@ -29,4 +29,8 @@ class TransactionService{
     public function findByPk($id){
         return $this->transaction->findByPk($id);
     }
+
+    public function findWithItems($id){
+        return $this->transaction->getTransactionWithItems($id);
+    }
 }
