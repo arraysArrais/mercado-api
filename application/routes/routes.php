@@ -4,6 +4,7 @@ use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Helpers\HttpHelpers;
 use Http\Controllers\CategoryController;
+use Http\Controllers\TransactionController;
 
 $router = Router::create();
 
@@ -19,6 +20,8 @@ $router->get('/category', [CategoryController::class, 'findAll']);
 $router->get('/category/{id}', [CategoryController::class, 'find']);
 $router->patch('/category/{id}', [CategoryController::class, 'update']);
 $router->delete('/category/{id}', [CategoryController::class, 'delete']);
+
+$router->post('/transaction', [TransactionController::class, 'create']);
 
 
 try {
