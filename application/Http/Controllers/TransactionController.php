@@ -5,7 +5,7 @@ namespace Http\Controllers;
 use Throwable;
 use Helpers\HttpHelpers;
 use Laminas\Diactoros\ServerRequest;
-use Services\TransactionSvc;
+use Services\TransactionService;
 
 class TransactionController
 {
@@ -13,17 +13,17 @@ class TransactionController
 
     public function __construct()
     {
-        $this->transactionService = new TransactionSvc();
+        $this->transactionService = new TransactionService();
     }
 
     public function create(ServerRequest $r)
     {
         $body = HttpHelpers::getBodyFromRequest($r);
+
         try {
             $result = $this->transactionService->createAndAssociateItems($body);
-
             if ($result['status'] == false) {
-                return HttpHelpers::jsonResponse(400, ["error" => ""]);
+                return HttpHelpers::jsonResponse(400, ["error" => "Erro ao realizar a transação"]);
             } else {
                 return HttpHelpers::jsonResponse(201, $this->transactionService->findByPk($result['id']));
             }

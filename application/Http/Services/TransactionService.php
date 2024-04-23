@@ -4,7 +4,7 @@ namespace Services;
 
 use Models\Transaction;
 
-class TransactionSvc{
+class TransactionService{
 
     private $transaction;
 
@@ -14,7 +14,16 @@ class TransactionSvc{
     }
 
     public function createAndAssociateItems($body){
-        return $this->transaction->insert();
+
+        $items = [];
+
+        foreach($body as $requestPayloadItem){
+            array_push($items, [
+                "id_item" => $requestPayloadItem->db_id
+            ]);
+        }
+
+        return $this->transaction->insert($items);
     }
 
     public function findByPk($id){
