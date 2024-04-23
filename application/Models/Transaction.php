@@ -24,15 +24,22 @@ class Transaction
     }
 
     public function insert($items)
-    {
+    {   
+        $total = 0;
+        foreach($items as $item){
+            $total += $item['valor_item'];
+        }
+
         //cria registro de venda
-        $insertTransaction = 'INSERT INTO ' . $this->tableName . '(created_date) VALUES (CURRENT_TIMESTAMP)';
+        $insertTransaction = 'INSERT INTO ' . $this->tableName . '(created_date, total) VALUES (CURRENT_TIMESTAMP, :total)';
         $statementTransaction = $this->db->prepare($insertTransaction);
+        $statementTransaction->bindParam(':total', $total);
         $statementTransaction->execute();
         $idTransaction = $this->lastInsertedId();
         $result = [
             "status" => $statementTransaction->rowCount() > 0 ? true : false,
-            "id" => $idTransaction
+            "id" => $idTransaction,
+            "total" => $total
         ];
 
         //associa os produtos ao registro de venda
@@ -70,6 +77,23 @@ class Transaction
         $statement->bindParam(':transaction_id', $transaction_id);
         $statement->execute();
         $result = $statement->fetchAll($this->db::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getAllTransactionsWithItems()
+    {
+        $result = [];
+        $transactionQuery = 'select * from transaction';
+        $transactionStmt = $this->db->prepare($transactionQuery);
+        $transactionStmt->execute();
+        $transactionResult = $transactionStmt->fetchAll($this->db::FETCH_ASSOC);
+
+        //adiciona os produtos para cada id de transação e retorna como payload de resposta para a requisição
+        foreach ($transactionResult as $item) {
+            $products = $this->getTransactionWithItems($item['id']);
+            $item['products'] = $products;
+            array_push($result, $item);
+        }
         return $result;
     }
 

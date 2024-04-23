@@ -19,7 +19,6 @@ class TransactionController
     public function create(ServerRequest $r)
     {
         $body = HttpHelpers::getBodyFromRequest($r);
-
         try {
             $result = $this->transactionService->createAndAssociateItems($body);
             if ($result['status'] == false) {
@@ -36,6 +35,15 @@ class TransactionController
     {
         try {
             $result = $this->transactionService->findWithItems($id);
+            return HttpHelpers::jsonResponse(200, $result);
+        } catch (Throwable $e) {
+            return HttpHelpers::jsonResponse(500, $e->getMessage());
+        }
+    }
+
+    public function findAllWihtItems(){
+        try {
+            $result = $this->transactionService->findAllWihtItems();
             return HttpHelpers::jsonResponse(200, $result);
         } catch (Throwable $e) {
             return HttpHelpers::jsonResponse(500, $e->getMessage());

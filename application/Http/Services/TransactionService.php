@@ -16,13 +16,12 @@ class TransactionService{
     public function createAndAssociateItems($body){
 
         $items = [];
-
         foreach($body as $requestPayloadItem){
             array_push($items, [
-                "id_item" => $requestPayloadItem->db_id
+                "id_item" => $requestPayloadItem->db_id,
+                "valor_item" => number_format(($requestPayloadItem->Valor + $requestPayloadItem->Imposto), 2) //valor com imposto
             ]);
         }
-
         return $this->transaction->insert($items);
     }
 
@@ -32,5 +31,9 @@ class TransactionService{
 
     public function findWithItems($id){
         return $this->transaction->getTransactionWithItems($id);
+    }
+
+    public function findAllWihtItems(){
+        return $this->transaction->getAllTransactionsWithItems();
     }
 }

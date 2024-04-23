@@ -22,7 +22,9 @@ $router->patch('/category/{id}', [CategoryController::class, 'update']);
 $router->delete('/category/{id}', [CategoryController::class, 'delete']);
 
 $router->post('/transaction', [TransactionController::class, 'create']);
+$router->get('/transaction', [TransactionController::class, 'findAllWihtItems']);
 $router->get('/transaction/{id}', [TransactionController::class, 'findWithItems']);
+
 
 
 try {
