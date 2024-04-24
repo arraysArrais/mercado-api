@@ -180,38 +180,6 @@ ALTER TABLE ONLY public.transaction ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: db_user
---
-
-COPY public.category (id, name, tax_percent) FROM stdin;
-\.
-
-
---
--- Data for Name: item; Type: TABLE DATA; Schema: public; Owner: db_user
---
-
-COPY public.item (price, name, description, category_id, codigo, id) FROM stdin;
-\.
-
-
---
--- Data for Name: transaction; Type: TABLE DATA; Schema: public; Owner: db_user
---
-
-COPY public.transaction (id, created_date, total) FROM stdin;
-\.
-
-
---
--- Data for Name: transaction_item; Type: TABLE DATA; Schema: public; Owner: db_user
---
-
-COPY public.transaction_item (transaction_id, item_id) FROM stdin;
-\.
-
-
---
 -- Name: category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
