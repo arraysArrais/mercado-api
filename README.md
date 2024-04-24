@@ -18,5 +18,5 @@ $ composer install
 ```
 
 ### Observação
-Caso esteja usando alguma distro linux, talvez seja necessário conceder permissões de acesso/leitura/escrita ao diretório raíz do repositório utilizando o comando chmod.
-
+- Caso esteja usando alguma distro linux, talvez seja necessário conceder permissões de acesso/leitura/escrita ao diretório raíz do repositório utilizando o comando chmod.
+- O backup da base de dados se encontra no arquivo "pg_dump.sql", localizado na raíz do projeto
