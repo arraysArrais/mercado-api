@@ -27,7 +27,7 @@ $ composer install
 # Dados para conexão ao servidor do banco:
 
 # Host name/address: 
-$ postgres (partindo da rede interna) 
+$ postgres (partindo da rede interna do container) 
 $ localhost:4005 (caso queira acessar diretamente da sua máquina)
 
 # Username: 
