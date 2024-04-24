@@ -36,8 +36,6 @@ services:
         POSTGRES_PASSWORD: db_password
       networks:
       - internal
-      volumes:
-      - ./pg_data:/
       ports:
         - "4005:5432"
 
