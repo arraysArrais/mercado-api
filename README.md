@@ -15,6 +15,11 @@ $ docker compose up --build
 # Instale as dependências do composer (dentro do container que roda o PHP).
 $ composer install
 
+# Restaure o backup da base de dados
+
+# A aplicação estará disponível no endereço http://localhost:8080
+# o pgAdmin poderá ser acessado no endereço http://localhost:5050
+
 ```
 
 ### Observação
