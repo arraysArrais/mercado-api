@@ -45,10 +45,10 @@ class Item
         return $result;
     }
 
-    public function insert($price, $name, $category_id, $description = null)
+    public function insert($price, $name, $category_id, $codigo, $description = null,)
     {   
             $uuid = Uuid::uuid4();
-            $insert = 'INSERT INTO '.$this->tableName.' (price, name, description, category_id, id) VALUES (:price, :name, :description, :category_id, :id)';
+            $insert = 'INSERT INTO '.$this->tableName.' (price, name, description, category_id, id, codigo) VALUES (:price, :name, :description, :category_id, :id, :codigo)';
 
             $statement = $this->db->prepare($insert);
 
@@ -56,6 +56,7 @@ class Item
             $statement->bindParam(':name', $name);
             $statement->bindParam(':description', $description);
             $statement->bindParam(':category_id', $category_id);
+            $statement->bindParam(':codigo', $codigo);
             $statement->bindParam(':id', $uuid);
 
             $statement->execute();
@@ -67,14 +68,15 @@ class Item
             return $result;
     }
 
-    public function update($id, $price, $name, $description, $category_id){
+    public function update($id, $price, $name, $description, $category_id, $code){
         $item = $this->findByPk($id);
         $price = $price == null ? $item[0]['price'] : $price;
         $name = $name == null ? $item[0]['name'] : $name;
         $description = $description == null ? $item[0]['description'] : $description;
         $category_id = $category_id == null ? $item[0]['category_id'] : $category_id;
+        $code = $code == null ? $item[0]['codigo'] : $code;
 
-        $update = 'UPDATE '.$this->tableName.' set price = :price, name = :name, description = :description, category_id = :category_id WHERE id = :id';
+        $update = 'UPDATE '.$this->tableName.' set price = :price, name = :name, description = :description, category_id = :category_id, codigo = :codigo WHERE id = :id';
 
         $statement = $this->db->prepare($update);
 
@@ -83,6 +85,7 @@ class Item
         $statement->bindParam(':description', $description);
         $statement->bindParam(':category_id', $category_id);
         $statement->bindParam(':id', $id);
+        $statement->bindParam(':codigo', $code);
         
         $statement->execute();
         return $statement->rowCount() > 0 ? true : false;

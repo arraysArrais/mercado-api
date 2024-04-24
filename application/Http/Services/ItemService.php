@@ -27,18 +27,18 @@ class ItemService{
 
     public function create($body){
         //Checa por atributos obrigatórios
-        if($body->name != null && $body->category_id != null && $body->price != null){
-            return $this->item->insert($body->price, $body->name, $body->category_id, $body->description);
+        if($body->name != null && $body->category_id != null && $body->price != null && $body->code){
+            return $this->item->insert($body->price, $body->name, $body->category_id, $body->code, $body->description,);
         }
         return false;   
     }
 
     public function update($id, $body){
         //Pelo menos um atributo deve ser enviado para alteração na requisição
-        if($body->name == null && $body->description == null && $body->price == null && $body->category_id == null){
+        if($body->name == null && $body->description == null && $body->price == null && $body->category_id == null && $body->code == null){
             return false;    
         }
-        return $this->item->update($id, $body->price, $body->name, $body->description, $body->category_id);
+        return $this->item->update($id, $body->price, $body->name, $body->description, $body->category_id, $body->code);
     }
 
     public function delete($id){
