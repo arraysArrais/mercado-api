@@ -24,6 +24,12 @@ $ composer install
 # email: admin@email.com
 # password: adminpassword
 
+# Dados para conexão ao servidor do banco :
+# Host name/address: postgres (partindo da rede interna) ou localhost:4005 caso queira acessar diretamente da sua máquina
+# Username: db_user
+# password: db_password
+# database: postgres
+
 ```
 
 ### Observação
