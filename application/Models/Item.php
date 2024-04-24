@@ -23,6 +23,17 @@ class Item
         return $result;
     }
 
+    public function getAllCompleteScope()
+    {
+        $query = 'select i.id, i.name, i.description, i.price, i.codigo, c.name as "category", c.tax_percent 
+        from '. $this->tableName .' i
+        inner join category c on c.id = i.category_id';
+
+        $statement = $this->db->query($query);
+        $result = $statement->fetchAll($this->db::FETCH_ASSOC);
+        return $result;
+    }
+
     public function findByPk($id)
     {
         $query = 'SELECT * from ' . $this->tableName . ' WHERE id = :id';

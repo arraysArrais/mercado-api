@@ -13,7 +13,11 @@ class ItemService{
         $this->item = new Item();
     }
 
-    public function findAll(){
+    public function findAll($scope = null){
+        if($scope == 'completeScope'){
+            return $this->item->getAllCompleteScope();
+        }
+
         return $this->item->getAll();
     }
 

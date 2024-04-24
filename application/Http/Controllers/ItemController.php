@@ -24,6 +24,9 @@ class ItemController
             if ($queryParams['codigo'] != null) {
                 return $this->itemService->findByCodigo($queryParams['codigo']);
             }
+            if($queryParams['scope'] == 'completeScope'){
+                return $this->itemService->findAll($queryParams['scope']);
+            }
 
             $result = $this->itemService->findAll();
             return HttpHelpers::jsonResponse(200, $result);
