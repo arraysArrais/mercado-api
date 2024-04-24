@@ -20,6 +20,10 @@ $ composer install
 # A aplicação estará disponível no endereço http://localhost:8080
 # o pgAdmin poderá ser acessado no endereço http://localhost:5050
 
+# Credenciais de acesso ao pgAdmin:
+# email: admin@email.com
+# password: adminpassword
+
 ```
 
 ### Observação
