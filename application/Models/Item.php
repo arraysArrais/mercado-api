@@ -100,7 +100,7 @@ class Item
     }
 
     public function findByCodigo($codigo){
-        $query = 'select i.id, i.name, i.description, i.price, i.codigo, c.name as "category", c.tax_percent 
+        $query = 'select i.id, i.name, i.description, i.price, i.codigo, c.name as "category", c.tax_percent , i.category_id
         from item i
         inner join category c on c.id = i.category_id where i.codigo = :codigo';
 
